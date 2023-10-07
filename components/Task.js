@@ -5,13 +5,14 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Alert,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import axios from "axios";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import TodoModalContent from "./TodoModalContent";
 
-function CheckMark({ _id, completed, toggleTodo }) {
+function CheckMark({ _id, completed, toggleTodo, description }) {
   async function toggle() {
     try {
       const response = await axios.put(
@@ -54,6 +55,7 @@ export default function Tasks({
   _id,
   title,
   completed,
+  description,
   user,
   clearTodo,
   toggleTodo,
@@ -64,15 +66,39 @@ export default function Tasks({
   const sharedBottomSheetRef = useRef(null);
   const snapPoints = ["25%", "48%", "75%"];
   const snapPointsShared = ["40%"];
+  const [editedTitle, setEditedTitle] = useState(title);
+  const [editedDescription, setEditedDescription] = useState(description);
 
-  function handlePresentModal() {
-    bottomSheetModalRef.current?.present();
+  async function handleUpdateTask() {
+    try {
+      const response = await axios.put(
+        `http://192.168.1.9:3000/todo-app/tasks/${_id}`,
+        {
+          title: editedTitle,
+          description: editedDescription,
+        }
+      );
+
+      if (response.status === 200) {
+        // Actualiza la tarea en el estado local
+        const updatedTask = {
+          _id,
+          title: editedTitle,
+          description: editedDescription,
+          completed,
+        };
+        setTodos((prevTodos) =>
+          prevTodos.map((todo) => (todo._id === _id ? updatedTask : todo))
+        );
+        Alert.alert("Task Updated", "The task has been updated successfully.");
+        bottomSheetModalRef.current?.close(); // Cierra el modal después de la actualización
+      } else {
+        console.error("Error al actualizar la tarea:", response.status);
+      }
+    } catch (error) {
+      console.error("Error al actualizar la tarea:", error);
+    }
   }
-
-  function handlePresentShared() {
-    sharedBottomSheetRef.current?.present();
-  }
-
   async function deleteTodo() {
     try {
       if (!_id) {
@@ -107,7 +133,7 @@ export default function Tasks({
         <Text style={styles.text}>{title}</Text>
       </View>
       <Feather
-        onPress={handlePresentModal}
+        onPress={() => bottomSheetModalRef.current?.present()}
         name="users"
         size={20}
         color="#383839"
@@ -123,7 +149,13 @@ export default function Tasks({
         snapPoints={snapPoints}
         backgroundStyle={{ borderRadius: 50, borderWidth: 4 }}
       >
-        <TodoModalContent _id={_id} title={title} completed={completed} />
+        <TodoModalContent
+          _id={_id}
+          title={title}
+          description={description}
+          onUpdate={handleUpdateTask}
+          onCancel={() => bottomSheetModalRef.current?.close()}
+        />
       </BottomSheetModal>
     </TouchableOpacity>
   );
