@@ -66,10 +66,15 @@ export default function Tasks({
   const sharedBottomSheetRef = useRef(null);
   const snapPoints = ["25%", "48%", "75%"];
   const snapPointsShared = ["40%"];
-  const [editedTitle, setEditedTitle] = useState(title);
-  const [editedDescription, setEditedDescription] = useState(description);
 
-  async function handleUpdateTask() {
+  function handlePresentModal() {
+    bottomSheetModalRef.current?.present();
+  }
+
+  function handlePresentShared() {
+    sharedBottomSheetRef.current?.present();
+  }
+  async function handleTaskUpdate(editedTitle, editedDescription) {
     try {
       const response = await axios.put(
         `http://192.168.1.9:3000/todo-app/tasks/${_id}`,
@@ -133,7 +138,7 @@ export default function Tasks({
         <Text style={styles.text}>{title}</Text>
       </View>
       <Feather
-        onPress={() => bottomSheetModalRef.current?.present()}
+        onPress={handlePresentModal}
         name="users"
         size={20}
         color="#383839"
@@ -153,7 +158,7 @@ export default function Tasks({
           _id={_id}
           title={title}
           description={description}
-          onUpdate={handleUpdateTask}
+          onUpdate={handleTaskUpdate} // Asegúrate de pasar la función onUpdate aquí
           onCancel={() => bottomSheetModalRef.current?.close()}
         />
       </BottomSheetModal>
