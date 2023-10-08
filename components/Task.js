@@ -7,7 +7,7 @@ import {
   View,
   Alert,
 } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons, Feather } from "@expo/vector-icons";
 import axios from "axios";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import TodoModalContent from "./TodoModalContent";
@@ -137,15 +137,16 @@ export default function Tasks({
         <CheckMark _id={_id} completed={completed} toggleTodo={toggleTodo} />
         <Text style={styles.text}>{title}</Text>
       </View>
-      <Feather
+
+      <Ionicons
         onPress={handlePresentModal}
-        name="users"
+        name="pencil"
         size={20}
-        color="#383839"
+        color="black"
       />
       {isDeleteActive && (
         <Pressable onPress={deleteTodo} style={styles.deleteButton}>
-          <Text style={{ color: "white", fontWeight: "bold" }}>x</Text>
+          <Feather name="x" size={24} color="red" />
         </Pressable>
       )}
       <BottomSheetModal
@@ -213,14 +214,14 @@ const styles = StyleSheet.create({
     borderRadius: 7,
   },
   deleteButton: {
-    position: "absolute",
-    right: 0,
-    top: -6,
-    width: 20,
-    height: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#ef4444",
+    // position: "absolute",
+    // right: 10,
+    // top: -10,
+    // width: 40,
+    // height: 40,
+    // alignItems: "center",
+    // justifyContent: "center",
+
     borderRadius: 10,
   },
   contentContainer: {

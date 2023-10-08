@@ -13,6 +13,8 @@ import axios from "axios"; // Importa Axios
 import Tasks from "./components/Task";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Ionicons } from "@expo/vector-icons";
+
 import AddTask from "./components/AddTask";
 
 export default function App() {
@@ -101,7 +103,7 @@ export default function App() {
           style={styles.addButton}
           onPress={() => setIsAddTaskVisible(!isAddTaskVisible)}
         >
-          <FontAwesome name="plus" size={24} color="white" />
+          <Ionicons name="add-circle-outline" size={60} color="black" />
         </TouchableOpacity>
 
         {/* Renderiza el componente AddTask si isAddTaskVisible es true */}
@@ -130,9 +132,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 20,
     right: 20,
-    backgroundColor: "#0ea5e9",
-    width: 50,
-    height: 50,
+
+    width: 60,
+    height: 60,
     borderRadius: 25,
     alignItems: "center",
     justifyContent: "center",
