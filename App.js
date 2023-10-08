@@ -172,6 +172,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontStyle: "italic",
     textAlign: "center",
+    color: "#000EF9",
+    margin: 20,
     marginTop: -14,
     marginVertical: 10,
   },
