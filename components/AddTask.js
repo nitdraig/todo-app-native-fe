@@ -4,13 +4,20 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
+  Button,
   StyleSheet,
+  Alert,
 } from "react-native";
 import axios from "axios";
 
-function AddTask({ setTodos }) {
+function AddTask({ setTodos, toggleVisibility }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
   async function handleAddTask() {
     try {
@@ -27,8 +34,13 @@ function AddTask({ setTodos }) {
         setDescription("");
 
         const newTask = response.data;
-        setTodos((prevTodos) => [...prevTodos, newTask]);
+
+        bottomSheetModalRef.current?.close(); // Cierra el modal después de la actualización
+        // Cierra el modal al agregar la tarea con éxito
+        setIsModalVisible(false); // Cambia el estado local para ocultar el modal
       }
+
+      Alert.alert("Task Updated", "The task has been updated successfully.");
     } catch (error) {
       console.error("Error al agregar la tarea:", error);
     }
@@ -38,6 +50,7 @@ function AddTask({ setTodos }) {
     <View style={styles.container}>
       <TextInput
         placeholder="Título"
+        placeholderTextColor="#ffffff"
         value={title}
         onChangeText={(text) => setTitle(text)}
         style={styles.input}
@@ -45,6 +58,7 @@ function AddTask({ setTodos }) {
       <TextInput
         placeholder="Descripción"
         value={description}
+        placeholderTextColor="#ffffff"
         onChangeText={(text) => setDescription(text)}
         style={styles.input}
       />
@@ -62,6 +76,7 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
+    color: "#ffffff",
     borderRadius: 5,
     padding: 8,
     marginBottom: 12,

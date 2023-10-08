@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
+import Modal from "react-native-modal";
 import {
   FlatList,
   SafeAreaView,
@@ -37,6 +38,23 @@ export default function App() {
       console.error("Error al cambiar el estado de la tarea:", error);
     }
   }
+  function MotivationalQuote() {
+    const [motivationalQuote, setMotivationalQuote] = useState("");
+
+    useEffect(() => {
+      // Hacer una solicitud al backend para obtener la frase motivacional
+      axios
+        .get("http://192.168.1.9:3000/motivational")
+        .then((response) => {
+          setMotivationalQuote(response.data.motivationalQuote);
+        })
+        .catch((error) => {
+          console.error("Error al obtener la frase motivacional:", error);
+        });
+    }, []);
+
+    return <Text style={styles.motivationalQuote}>hola</Text>;
+  }
   function fetchUpdatedTasks() {
     axios
       .get("http://192.168.1.9:3000/todo-app/tasks")
@@ -62,7 +80,7 @@ export default function App() {
     try {
       const response = await axios.get(
         "http://192.168.1.9:3000/todo-app/tasks"
-      );
+      ); // Utiliza Axios
       setTodos(response.data);
     } catch (error) {
       console.error("Error al obtener datos:", error);
@@ -73,6 +91,8 @@ export default function App() {
     <BottomSheetModalProvider>
       <View style={styles.container}>
         <SafeAreaView>
+          <Text style={styles.title}>Mi día</Text>
+          <MotivationalQuote />
           <FlatList
             data={todo}
             keyExtractor={(item) => item._id.toString()}
@@ -88,22 +108,32 @@ export default function App() {
                 setTodos={setTodos}
               />
             )}
-            ListHeaderComponent={() => <Text style={styles.title}>Today</Text>}
+            ListHeaderComponent={() => null}
             contentContainerStyle={styles.contentContainerStyle}
           />
         </SafeAreaView>
         <StatusBar style="auto" />
-
         <TouchableOpacity
           style={styles.addButton}
-          onPress={() => setIsAddTaskVisible(!isAddTaskVisible)}
+          onPress={() => setIsAddTaskVisible(true)}
         >
           <Ionicons name="add-circle-outline" size={60} color="black" />
         </TouchableOpacity>
 
-        {isAddTaskVisible && (
-          <AddTask setTodos={setTodos} toggleVisibility={setIsAddTaskVisible} />
-        )}
+        <Modal
+          isVisible={isAddTaskVisible}
+          style={styles.addTaskModal}
+          onBackdropPress={() => setIsAddTaskVisible(false)}
+          backdropOpacity={0.5}
+          animationIn="slideInUp"
+          animationOut="slideOutDown"
+          useNativeDriver={true}
+        >
+          <AddTask
+            setTodos={setTodos}
+            toggleVisibility={() => setIsAddTaskVisible(false)} // Pasa la función para controlar la visibilidad del modal
+          />
+        </Modal>
       </View>
     </BottomSheetModalProvider>
   );
@@ -120,17 +150,23 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "800",
     fontSize: 28,
+    marginTop: 30,
     marginBottom: 15,
   },
   addButton: {
     position: "absolute",
     bottom: 20,
     right: 20,
-
     width: 60,
     height: 60,
     borderRadius: 25,
     alignItems: "center",
     justifyContent: "center",
+  },
+  motivationalQuote: {
+    fontSize: 16,
+    fontStyle: "italic",
+    textAlign: "center",
+    marginVertical: 10,
   },
 });

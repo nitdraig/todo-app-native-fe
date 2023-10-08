@@ -68,9 +68,6 @@ export default function Tasks({
     bottomSheetModalRef.current?.present();
   }
 
-  function handlePresentShared() {
-    sharedBottomSheetRef.current?.present();
-  }
   async function handleTaskUpdate(editedTitle, editedDescription) {
     try {
       const response = await axios.put(
@@ -130,7 +127,10 @@ export default function Tasks({
     >
       <View style={styles.contentTextCheckBox}>
         <CheckMark _id={_id} completed={completed} toggleTodo={toggleTodo} />
-        <Text style={styles.text}>{title}</Text>
+        <Text style={styles.textTitle}>{title}</Text>
+        <View style={styles.contentTextDesc}>
+          <Text style={styles.textDesc}>{description}</Text>
+        </View>
       </View>
 
       <Ionicons
@@ -178,6 +178,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexGrow: 1,
   },
+  contentTextDesc: {
+    alignItems: "center",
+  },
   contentContainer: {
     flex: 1,
     alignItems: "center",
@@ -195,9 +198,17 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
     fontSize: 16,
   },
-  text: {
-    fontSize: 16,
+  textTitle: {
+    fontSize: 18,
     fontWeight: "600",
+    color: "#383839",
+    letterSpacing: -0.011 * 16, // 16 = baseFontSize
+    flexShrink: 1,
+    marginHorizontal: 8,
+  },
+  textDesc: {
+    fontSize: 14,
+    fontWeight: "400",
     color: "#383839",
     letterSpacing: -0.011 * 16, // 16 = baseFontSize
     flexShrink: 1,
@@ -209,14 +220,6 @@ const styles = StyleSheet.create({
     borderRadius: 7,
   },
   deleteButton: {
-    // position: "absolute",
-    // right: 10,
-    // top: -10,
-    // width: 40,
-    // height: 40,
-    // alignItems: "center",
-    // justifyContent: "center",
-
     borderRadius: 10,
   },
   contentContainer: {
