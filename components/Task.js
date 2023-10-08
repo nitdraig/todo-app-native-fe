@@ -7,7 +7,7 @@ import {
   View,
   Alert,
 } from "react-native";
-import { Ionicons, MaterialIcons, Feather } from "@expo/vector-icons";
+import { Ionicons, Feather } from "@expo/vector-icons";
 import axios from "axios";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import TodoModalContent from "./TodoModalContent";
@@ -56,8 +56,6 @@ export default function Tasks({
   title,
   completed,
   description,
-  user,
-  clearTodo,
   toggleTodo,
   setTodos,
 }) {
@@ -65,7 +63,6 @@ export default function Tasks({
   const bottomSheetModalRef = useRef(null);
   const sharedBottomSheetRef = useRef(null);
   const snapPoints = ["25%", "48%", "75%"];
-  const snapPointsShared = ["40%"];
 
   function handlePresentModal() {
     bottomSheetModalRef.current?.present();
@@ -85,7 +82,6 @@ export default function Tasks({
       );
 
       if (response.status === 200) {
-        // Actualiza la tarea en el estado local
         const updatedTask = {
           _id,
           title: editedTitle,
@@ -116,7 +112,6 @@ export default function Tasks({
       );
 
       if (response.status === 200) {
-        // Elimina la tarea del estado local
         setTodos((prevTodos) => prevTodos.filter((todo) => todo._id !== _id));
       } else {
         console.error("Error al eliminar la tarea:", response.status);
@@ -159,7 +154,7 @@ export default function Tasks({
           _id={_id}
           title={title}
           description={description}
-          onUpdate={handleTaskUpdate} // Asegúrate de pasar la función onUpdate aquí
+          onUpdate={handleTaskUpdate}
           onCancel={() => bottomSheetModalRef.current?.close()}
         />
       </BottomSheetModal>

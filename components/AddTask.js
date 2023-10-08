@@ -23,11 +23,10 @@ function AddTask({ setTodos }) {
       );
 
       if (response.status === 201) {
-        // La tarea se agregó con éxito en el servidor
         setTitle("");
         setDescription("");
 
-        const newTask = response.data; // asume que el servidor devuelve la tarea creada
+        const newTask = response.data;
         setTodos((prevTodos) => [...prevTodos, newTask]);
       }
     } catch (error) {
