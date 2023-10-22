@@ -22,7 +22,7 @@ function AddTask({ setTodos, toggleVisibility }) {
   async function handleAddTask() {
     try {
       const response = await axios.post(
-        "http://192.168.1.9:3000/todo-app/tasks",
+        "http://192.168.1.8:3000/todo-app/tasks",
         {
           title: title,
           description: description,

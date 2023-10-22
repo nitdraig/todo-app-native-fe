@@ -16,7 +16,7 @@ function CheckMark({ _id, completed, toggleTodo, description }) {
   async function toggle() {
     try {
       const response = await axios.put(
-        `http://192.168.1.9:3000/todo-app/tasks/${_id}`,
+        `http://192.168.1.8:3000/todo-app/tasks/${_id}`,
         {
           completed: !completed, // Cambia el valor de completed
         },
@@ -71,7 +71,7 @@ export default function Tasks({
   async function handleTaskUpdate(editedTitle, editedDescription) {
     try {
       const response = await axios.put(
-        `http://192.168.1.9:3000/todo-app/tasks/${_id}`,
+        `http://192.168.1.8:3000/todo-app/tasks/${_id}`,
         {
           title: editedTitle,
           description: editedDescription,
@@ -105,7 +105,7 @@ export default function Tasks({
       }
 
       const response = await axios.delete(
-        `http://192.168.1.9:3000/todo-app/tasks/${_id}`
+        `http://192.168.1.8:3000/todo-app/tasks/${_id}`
       );
 
       if (response.status === 200) {

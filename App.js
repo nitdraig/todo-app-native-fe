@@ -25,7 +25,7 @@ export default function App() {
   async function toggleTodo(id) {
     try {
       const response = await axios.put(
-        `http://192.168.1.9:3000/todo-app/tasks/${id}`
+        `http://192.168.1.8:3000/todo-app/tasks/${id}`
       );
       const updatedTask = response.data;
 
@@ -44,7 +44,7 @@ export default function App() {
     useEffect(() => {
       // Hacer una solicitud al backend para obtener la frase motivacional
       axios
-        .get("http://192.168.1.9:3000/todo-app/motivational-quote")
+        .get("http://192.168.1.8:3000/todo-app/motivational-quote")
         .then((response) => {
           setMotivationalQuote(response.data.quote.text);
         })
@@ -57,7 +57,7 @@ export default function App() {
   }
   function fetchUpdatedTasks() {
     axios
-      .get("http://192.168.1.9:3000/todo-app/tasks")
+      .get("http://192.168.1.8:3000/todo-app/tasks")
       .then((response) => {
         setTodos(response.data);
       })
@@ -79,7 +79,7 @@ export default function App() {
   async function fetchData() {
     try {
       const response = await axios.get(
-        "http://192.168.1.9:3000/todo-app/tasks"
+        "http://192.168.1.8:3000/todo-app/tasks"
       ); // Utiliza Axios
       setTodos(response.data);
     } catch (error) {
