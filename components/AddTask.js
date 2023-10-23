@@ -35,12 +35,11 @@ function AddTask({ setTodos, toggleVisibility }) {
 
         const newTask = response.data;
 
-        bottomSheetModalRef.current?.close(); // Cierra el modal después de la actualización
-        // Cierra el modal al agregar la tarea con éxito
-        setIsModalVisible(false); // Cambia el estado local para ocultar el modal
+        bottomSheetModalRef.current?.close();
+        setIsModalVisible(false);
       }
 
-      Alert.alert("Task Updated", "The task has been updated successfully.");
+      Alert.alert("Nueva tarea agregada", "Muy bien!!");
     } catch (error) {
       console.error("Error al agregar la tarea:", error);
     }

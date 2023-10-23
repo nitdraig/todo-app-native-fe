@@ -17,7 +17,7 @@ export default function TodoModalContent({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Edit Task</Text>
+      <Text style={styles.title}>Editar tarea</Text>
       <TextInput
         style={styles.input}
         value={editedTitle}
@@ -30,8 +30,8 @@ export default function TodoModalContent({
         onChangeText={setEditedDescription}
         placeholder="Task Description"
       />
-      <Button title="Update Task" onPress={handleUpdate} />
-      <Button title="Cancel" onPress={onCancel} color="red" />
+      <Button title="Actualizar tarea" onPress={handleUpdate} />
+      <Button title="Cancelar" onPress={onCancel} color="red" />
     </View>
   );
 }

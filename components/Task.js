@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   Alert,
+  PanResponder,
 } from "react-native";
 import { Ionicons, Feather } from "@expo/vector-icons";
 import axios from "axios";
@@ -58,6 +59,7 @@ export default function Tasks({
   description,
   toggleTodo,
   setTodos,
+  drag,
 }) {
   const [isDeleteActive, setIsDeleteActive] = useState(false);
   const bottomSheetModalRef = useRef(null);
@@ -125,7 +127,7 @@ export default function Tasks({
       activeOpacity={0.8}
       style={[styles.container]}
     >
-      <View style={styles.contentTextCheckBox}>
+      <View style={styles.contentTextCheckBox} {...drag}>
         <CheckMark _id={_id} completed={completed} toggleTodo={toggleTodo} />
         <Text style={styles.textTitle}>{title}</Text>
         <View style={styles.contentTextDesc}>
